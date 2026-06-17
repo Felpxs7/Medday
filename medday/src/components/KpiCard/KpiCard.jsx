@@ -1,33 +1,27 @@
-function KpiCard({ titulo, valor }) {
-    return (
-        <div
-            style={{
-                background: "white",
-                padding: "20px",
-                borderRadius: "16px",
-                boxShadow: "0 4px 20px rgba(0,0,0,.05)",
-                minWidth: "200px",
-            }}
-        >
-            <h3
-                style={{
-                    color: "#64748B",
-                    marginBottom: "10px",
-                }}
-            >
-                {titulo}
-            </h3>
+import "./KpiCard.css";
 
-            <p
-                style={{
-                    fontSize: "32px",
-                    fontWeight: "bold",
-                    color: "#0F172A",
-                    margin: 0,
-                }}
-            >
+function KpiCard({
+    titulo,
+    valor,
+    detalhe,
+}) {
+    return (
+        <div className="kpi-card">
+
+            <div className="kpi-title">
+                {titulo}
+            </div>
+
+            <div className="kpi-value">
                 {valor}
-            </p>
+            </div>
+
+            {detalhe && (
+                <div className="kpi-footer">
+                    {detalhe}
+                </div>
+            )}
+
         </div>
     );
 }
