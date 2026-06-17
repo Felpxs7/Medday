@@ -7,8 +7,8 @@ function Header() {
         <header className="header">
 
             <div className="header-logo">
-                <h1>Medday</h1>
-                <span>Gestão Médica</span>
+                <h1>🏥 Medday</h1>
+                <span>Sistema de Gestão Médica</span>
             </div>
 
             <div className="header-search">
@@ -29,9 +29,7 @@ function Header() {
 
                 <button
                     className="new-appointment-btn"
-                    onClick={() =>
-                        navigate("/agenda")
-                    }
+                    onClick={() => navigate("/agenda")}
                 >
                     + Novo Agendamento
                 </button>

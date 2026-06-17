@@ -154,7 +154,7 @@ main {
 
 .header-search input {
     width: 100%;
-    max-width: 550px;
+    max-width: 700px;
 
     padding: 12px 18px;
 
@@ -226,7 +226,7 @@ main {
 
     font-weight: bold;
 }
-/* ===== SIDEBAR PROFISSIONAL ===== */
+
 
 .sidebar {
     width: 250px;
@@ -294,4 +294,22 @@ main {
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+.timeline-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 15px 0;
+
+    border-bottom: 1px solid #E2E8F0;
+}
+
+.timeline-item:last-child {
+    border-bottom: none;
+}
+
+.timeline-item strong {
+    color: #2563EB;
+    min-width: 70px;
 }

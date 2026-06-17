@@ -4,9 +4,10 @@ function KpiCard({
     titulo,
     valor,
     detalhe,
+    cor = "azul",
 }) {
     return (
-        <div className="kpi-card">
+        <div className={`kpi-card ${cor}`}>
 
             <div className="kpi-title">
                 {titulo}

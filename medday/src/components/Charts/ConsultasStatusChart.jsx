@@ -5,7 +5,7 @@ import {
     Legend,
 } from "chart.js";
 
-import { Pie } from "react-chartjs-2";
+import { Doughnut } from "react-chartjs-2";
 
 ChartJS.register(
     ArcElement,
@@ -24,25 +24,18 @@ function ConsultasStatusChart({ consultas }) {
 
     consultas.forEach((consulta) => {
         if (
-            statusContagem[
-                consulta.status
-            ] !== undefined
+            statusContagem[consulta.status] !==
+            undefined
         ) {
-            statusContagem[
-                consulta.status
-            ]++;
+            statusContagem[consulta.status]++;
         }
     });
 
     const data = {
-        labels: Object.keys(
-            statusContagem
-        ),
+        labels: Object.keys(statusContagem),
 
         datasets: [
             {
-                label: "Consultas",
-
                 data: Object.values(
                     statusContagem
                 ),
@@ -67,13 +60,40 @@ function ConsultasStatusChart({ consultas }) {
                 borderRadius: "16px",
                 boxShadow:
                     "0 4px 20px rgba(0,0,0,.05)",
+                height: "420px",
             }}
         >
-            <h2>
+            <h2
+                style={{
+                    marginBottom: "20px",
+                }}
+            >
                 Consultas por Status
             </h2>
 
-            <Pie data={data} />
+            <div
+                style={{
+                    maxWidth: "320px",
+                    margin: "0 auto",
+                }}
+            >
+                <Doughnut
+                    data={data}
+                    options={{
+                        responsive: true,
+                        maintainAspectRatio: true,
+
+                        cutout: "70%",
+
+                        plugins: {
+                            legend: {
+                                position:
+                                    "bottom",
+                            },
+                        },
+                    }}
+                />
+            </div>
         </div>
     );
 }

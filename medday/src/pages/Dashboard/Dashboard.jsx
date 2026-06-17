@@ -50,158 +50,116 @@ function Dashboard() {
                       consultas.length
                   ) * 100
               );
+              const proximasConsultas = [...consultas]
+                    .sort((a, b) => {
+                        const dataA = new Date(`${a.data}T${a.horario}`);
+                        const dataB = new Date(`${b.data}T${b.horario}`);
+                        return dataA - dataB;
+                    })
+                    .slice(0, 5);
 
     return (
-        <div className="dashboard">
+    <div className="dashboard">
 
-            <div className="dashboard-header">
+        <div className="dashboard-header">
+            <h1>Dashboard</h1>
 
-                <h1>Dashboard</h1>
+            <button
+                className="novo-agendamento"
+                onClick={() => navigate("/agenda")}
+            >
+                + Novo Agendamento
+            </button>
+        </div>
 
-                <button
-                    className="novo-agendamento"
-                    onClick={() =>
-                        navigate("/agenda")
-                    }
-                >
-                    + Novo Agendamento
-                </button>
+        <div className="kpi-grid">
 
-            </div>
-
-            <div className="kpi-grid">
-
-                <KpiCard
-                    titulo="Consultas Hoje"
-                    valor={
-                        consultasHoje.length
-                    }
-                    detalhe="Agenda do dia"
-                />
-
-                <KpiCard
-                    titulo="Pacientes"
-                    valor={
-                        pacientes.length
-                    }
-                    detalhe="Cadastrados"
-                />
-
-                <KpiCard
-                    titulo="Médicos"
-                    valor={
-                        medicos.length
-                    }
-                    detalhe="Disponíveis"
-                />
-
-                <KpiCard
-                    titulo="Pendentes"
-                    valor={
-                        consultasPendentes.length
-                    }
-                    detalhe="Em atendimento"
-                />
-
-                <KpiCard
-                    titulo="Taxa de Ocupação"
-                    valor={`${taxaOcupacao}%`}
-                    detalhe="Consultas confirmadas"
-                />
-
-            </div>
-
-            <Timeline
-                consultas={consultasHoje}
+            <KpiCard
+                titulo="Consultas Hoje"
+                valor={consultasHoje.length}
+                detalhe="Agenda do dia"
+                cor="azul"
             />
 
-            <div className="dashboard-bottom">
+            <KpiCard
+                titulo="Pacientes"
+                valor={pacientes.length}
+                detalhe="Cadastrados"
+                cor="verde"
+            />
 
-                <div className="dashboard-section">
+            <KpiCard
+                titulo="Médicos"
+                valor={medicos.length}
+                detalhe="Disponíveis"
+                cor="roxo"
+            />
 
-                    <h2>
-                        Próximas Consultas
-                    </h2>
+            <KpiCard
+                titulo="Pendentes"
+                valor={consultasPendentes.length}
+                detalhe="Em atendimento"
+                cor="laranja"
+            />
 
-                    <table
-                        style={{
-                            width: "100%",
-                            marginTop:
-                                "20px",
-                        }}
-                    >
-                        <thead>
-                            <tr>
-                                <th>
-                                    Paciente
-                                </th>
-                                <th>
-                                    Médico
-                                </th>
-                                <th>
-                                    Horário
-                                </th>
-                                <th>
-                                    Sala
-                                </th>
-                            </tr>
-                        </thead>
+            <KpiCard
+                titulo="Taxa de Ocupação"
+                valor={`${taxaOcupacao}%`}
+                detalhe="Consultas confirmadas"
+                cor="ciano"
+            />
 
-                        <tbody>
+        </div>
 
-                            {consultas
-                                .slice(0, 5)
-                                .map(
-                                    (
-                                        consulta
-                                    ) => (
-                                        <tr
-                                            key={
-                                                consulta.id
-                                            }
-                                        >
-                                            <td>
-                                                {
-                                                    consulta.paciente
-                                                }
-                                            </td>
+        <Timeline consultas={consultasHoje} />
 
-                                            <td>
-                                                {
-                                                    consulta.medico
-                                                }
-                                            </td>
+        <div className="dashboard-bottom">
 
-                                            <td>
-                                                {
-                                                    consulta.horario
-                                                }
-                                            </td>
+            <ConsultasStatusChart
+                consultas={consultas}
+            />
 
-                                            <td>
-                                                {
-                                                    consulta.sala
-                                                }
-                                            </td>
-                                        </tr>
-                                    )
-                                )}
+            <div className="dashboard-section">
 
-                        </tbody>
-                    </table>
+                <h2>Próximas Consultas</h2>
 
-                </div>
+                {proximasConsultas.length === 0 ? (
+                    <p>Nenhuma consulta cadastrada.</p>
+                ) : (
+                    proximasConsultas.map((consulta) => (
+                        <div
+                            key={consulta.id}
+                            className="timeline-item"
+                            style={{
+                                justifyContent: "flex-start"
+                            }}
+                        >
+                            <strong>
+                                {consulta.horario}
+                            </strong>
 
-                <ConsultasStatusChart
-                    consultas={
-                        consultas
-                    }
-                />
+                            <div
+                                style={{
+                                    alignItems: "flex-start",
+                                    textAlign: "left"
+                                }}
+                            >
+                                <p>{consulta.paciente}</p>
+
+                                <small>
+                                    Dr(a). {consulta.medico}
+                                </small>
+                            </div>
+                        </div>
+                    ))
+                )}
 
             </div>
 
         </div>
-    );
+
+    </div>
+);
 }
 
 export default Dashboard;

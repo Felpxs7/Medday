@@ -3,23 +3,54 @@ import { NavLink } from "react-router-dom";
 function Sidebar() {
     return (
         <aside className="sidebar">
-            <h2>Medday</h2>
 
-            <nav>
-                <NavLink to="/">Dashboard</NavLink>
+            <div className="sidebar-logo">
+                <h2>🏥 Medday</h2>
+                <span>Gestão Médica</span>
+            </div>
 
-                <NavLink to="/agenda">Agenda</NavLink>
+            <div className="sidebar-section">
+                <span className="sidebar-title">
+                    MENU
+                </span>
 
-                <NavLink to="/pacientes">Pacientes</NavLink>
+                <nav>
 
-                <NavLink to="/medicos">Médicos</NavLink>
+                    <NavLink to="/">
+                        📊 Dashboard
+                    </NavLink>
 
-                <NavLink to="/relatorios">Relatórios</NavLink>
+                    <NavLink to="/agenda">
+                        📅 Agenda
+                    </NavLink>
+
+                    <NavLink to="/pacientes">
+                        👥 Pacientes
+                    </NavLink>
+
+                    <NavLink to="/medicos">
+                        👨‍⚕️ Médicos
+                    </NavLink>
+
+                    <NavLink to="/relatorios">
+                        📈 Relatórios
+                    </NavLink>
+
+                </nav>
+            </div>
+
+            <div className="sidebar-footer">
 
                 <NavLink to="/configuracoes">
-                    Configurações
+                    ⚙️ Configurações
                 </NavLink>
-            </nav>
+
+                <button className="help-btn">
+                    ❓ Ajuda
+                </button>
+
+            </div>
+
         </aside>
     );
 }

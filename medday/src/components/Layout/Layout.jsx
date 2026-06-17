@@ -1,58 +1,27 @@
-import { NavLink } from "react-router-dom";
+import Sidebar from "./Sidebar";
+import Header from "./Header";
 
-function Sidebar() {
+function Layout({ children }) {
     return (
-        <aside className="sidebar">
+        <div className="container">
 
-            <div className="sidebar-logo">
-                <h2>🏥 Medday</h2>
-                <span>Gestão Médica</span>
-            </div>
+            <Sidebar />
 
-            <div className="sidebar-section">
-                <span className="sidebar-title">
-                    MENU
-                </span>
+            <div className="content">
 
-                <nav>
+                <Header />
 
-                    <NavLink to="/">
-                        📊 Dashboard
-                    </NavLink>
-
-                    <NavLink to="/agenda">
-                        📅 Agenda
-                    </NavLink>
-
-                    <NavLink to="/pacientes">
-                        👥 Pacientes
-                    </NavLink>
-
-                    <NavLink to="/medicos">
-                        👨‍⚕️ Médicos
-                    </NavLink>
-
-                    <NavLink to="/relatorios">
-                        📈 Relatórios
-                    </NavLink>
-
-                </nav>
-            </div>
-
-            <div className="sidebar-footer">
-
-                <NavLink to="/configuracoes">
-                    ⚙️ Configurações
-                </NavLink>
-
-                <a href="#">
-                    ❓ Ajuda
-                </a>
+                <main>
+                    {children}
+                </main>
 
             </div>
 
-        </aside>
+        </div>
+        
     );
+    
 }
 
-export default Sidebar;
+export default Layout;
+
