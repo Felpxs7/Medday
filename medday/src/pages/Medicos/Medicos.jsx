@@ -3,7 +3,9 @@ import Modal from "../../components/Modal/Modal";
 
 import {
     listarMedicos,
-    salvarMedicos,
+    criarMedico,
+    atualizarMedico,
+    deletarMedico
 } from "../../services/medicoService";
 
 function Medicos() {
