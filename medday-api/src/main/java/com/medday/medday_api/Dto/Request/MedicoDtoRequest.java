@@ -2,20 +2,17 @@ package com.medday.medday_api.Dto.Request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PacienteDtoRequest {
+public class MedicoDtoRequest {
 
     @NotBlank
     @Size(max = 100)
@@ -23,14 +20,16 @@ public class PacienteDtoRequest {
 
     @NotBlank
     @Size(max = 11)
-    private String cpf;
+    private String crm;
 
-    @Past
-    private LocalDate dataNascimento;
+    @NotBlank
+    private String especialidade;
 
+    @NotBlank
     @Size(max = 11)
     private String telefone;
 
+    @NotBlank
     @Email
     private String email;
 }
