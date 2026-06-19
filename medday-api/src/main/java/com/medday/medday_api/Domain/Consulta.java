@@ -3,20 +3,21 @@ package com.medday.medday_api.Domain;
 import com.medday.medday_api.Enum.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "consulta")
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Consulta {
 
     @Id
@@ -24,23 +25,19 @@ public class Consulta {
     private Long id;
 
     @NotNull
-    @Column(name = "data_hora", nullable = false)
-    private LocalDateTime dataHora;
+    @Column(name = "data", nullable = false)
+    private LocalDate data;
 
     @NotNull
-    @Column(name = "duracao_minutos", nullable = false)
-    private Integer duracaoMinutos;
+    @Column(name = "hora", nullable = false)
+    private LocalTime hora;
 
     @Column(nullable = false)
     private int sala;
 
-    @Column(nullable = false, length = 20)
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
     private Status status;
-
-    @Column(length = 300)
-    @Size(max = 300)
-    private String observacoes;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
@@ -51,5 +48,4 @@ public class Consulta {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "medico_id", nullable = false)
     private Medico medico;
-
 }
