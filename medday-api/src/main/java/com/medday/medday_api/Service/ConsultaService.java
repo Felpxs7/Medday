@@ -15,12 +15,12 @@ import com.medday.medday_api.Repository.PacienteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class ConsultaService {
+
     private final ConsultaRepository consultaRepository;
     private final MedicoRepository medicoRepository;
     private final PacienteRepository pacienteRepository;
@@ -35,14 +35,13 @@ public class ConsultaService {
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Paciente não encontrado com id: " + dto.getPacienteId()));
 
-        validarConflitoDeHorario(dto.getMedicoId(), dto.getDataHora(), dto.getDuracaoMinutos(), null);
+        validarConflitoDeHorario(dto.getMedicoId(), dto.getData(), dto.getHora(), null);
 
         Consulta consulta = Consulta.builder()
-                .dataHora(dto.getDataHora())
-                .duracaoMinutos(dto.getDuracaoMinutos())
+                .data(dto.getData())
+                .hora(dto.getHora())
                 .sala(dto.getSala())
                 .status(Status.EM_ESPERA)
-                .observacoes(dto.getObservacoes())
                 .paciente(paciente)
                 .medico(medico)
                 .build();
@@ -84,31 +83,23 @@ public class ConsultaService {
         return atualizarStatus(id, Status.CANCELADO);
     }
 
+    private void validarConflitoDeHorario(Long medicoId, java.time.LocalDate data,
+                                          java.time.LocalTime hora, Long consultaIdIgnorar) {
 
-    private void validarConflitoDeHorario(Long medicoId, LocalDateTime dataHora,
-                                          Integer duracaoMinutos, Long consultaIdIgnorar) {
-
-        LocalDateTime fimNovaConsulta = dataHora.plusMinutes(duracaoMinutos);
-
-        List<Consulta> consultasDoMedico = consultaRepository
-                .findConsultasAtivasPorMedico(medicoId);
+        List<Consulta> consultasDoMedico = consultaRepository.findConsultasAtivasPorMedico(medicoId);
 
         for (Consulta c : consultasDoMedico) {
+
             if (consultaIdIgnorar != null && c.getId().equals(consultaIdIgnorar)) continue;
 
             if (c.getStatus() == Status.CANCELADO || c.getStatus() == Status.FINALIZADO) continue;
 
-            LocalDateTime fimExistente = c.getDataHora().plusMinutes(c.getDuracaoMinutos());
+            boolean mesmoHorario = c.getData().equals(data) && c.getHora().equals(hora);
 
-            boolean haSobreposicao = dataHora.isBefore(fimExistente)
-                    && fimNovaConsulta.isAfter(c.getDataHora());
-
-            if (haSobreposicao) {
+            if (mesmoHorario) {
                 throw new ConflitoDeHorarioException(
-                        "O médico já possui consulta agendada entre " +
-                                c.getDataHora() + " e " + fimExistente);
+                        "O médico já possui consulta agendada em " + data + " às " + hora);
             }
         }
     }
 }
-

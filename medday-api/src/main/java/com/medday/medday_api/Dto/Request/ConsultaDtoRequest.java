@@ -1,5 +1,6 @@
 package com.medday.medday_api.Dto.Request;
 
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,7 @@ import java.time.LocalTime;
 public class ConsultaDtoRequest {
 
     @NotNull(message = "Data é obrigatória")
+    @FutureOrPresent
     private LocalDate data;
 
     @NotNull(message = "Hora é obrigatória")
