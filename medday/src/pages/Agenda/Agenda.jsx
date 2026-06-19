@@ -5,6 +5,7 @@ import {
     criarConsulta,
     atualizarConsulta,
     deletarConsulta,
+    atualizarStatusConsulta
 } from "../../services/consultaService";
 
 import { listarPacientes } from "../../services/pacienteService";
@@ -99,6 +100,16 @@ function Agenda() {
             status: consulta.status,
         });
         setModalAberto(true);
+    }
+
+    async function mudarStatus(id, novoStatus) {
+        try {
+            await atualizarStatusConsulta(id, novoStatus);
+            await carregarTudo();
+        } catch (erro) {
+            console.error("Erro ao atualizar status:", erro);
+            alert(erro.message || "Erro ao atualizar status.");
+        }
     }
 
     async function salvarEdicao() {
@@ -202,11 +213,17 @@ function Agenda() {
                                 <td>{consulta.medicoNome}</td>
                                 <td>{consulta.sala}</td>
                                 <td>
-                                        <span
-                                            className={`status ${consulta.status?.toLowerCase().replace("_", "-")}`}
-                                        >
-                                            {consulta.status}
-                                        </span>
+                                    <select
+                                        value={consulta.status}
+                                        onChange={(e) => mudarStatus(consulta.id, e.target.value)}
+                                        className={`status ${consulta.status?.toLowerCase().replace("_", "-")}`}
+                                    >
+                                        <option value="EM_ESPERA">Em espera</option>
+                                        <option value="CONFIRMADO">Confirmado</option>
+                                        <option value="EM_ATENDIMENTO">Em atendimento</option>
+                                        <option value="FINALIZADO">Finalizado</option>
+                                        <option value="CANCELADO">Cancelado</option>
+                                    </select>
                                 </td>
                                 <td>
                                     <button
