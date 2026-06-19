@@ -1,36 +1,23 @@
 package com.medday.medday_api.Dto.Request;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class PacienteDtoRequest {
 
-    @NotBlank
+    @NotBlank(message = "Nome é obrigatório")
     @Size(max = 100)
     private String nome;
 
-    @NotBlank
-    @Size(max = 11)
-    private String cpf;
-
-    @Past
-    private LocalDate dataNascimento;
-
-    @Size(max = 11)
+    @NotBlank(message = "Telefone é obrigatório")
+    @Size(max = 20)
     private String telefone;
-
-    @Email
-    private String email;
 }

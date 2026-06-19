@@ -7,18 +7,21 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class ConsultaDtoResponse {
+
     private Long id;
-    private LocalDateTime dataHora;
-    private Integer duracaoMinutos;
+    private LocalDate data;
+    private LocalTime hora;
     private int sala;
     private Status status;
-    private String observacoes;
+
     private Long pacienteId;
     private String pacienteNome;
     private Long medicoId;
@@ -28,11 +31,10 @@ public class ConsultaDtoResponse {
     public static ConsultaDtoResponse fromEntity(Consulta consulta) {
         return ConsultaDtoResponse.builder()
                 .id(consulta.getId())
-                .dataHora(consulta.getDataHora())
-                .duracaoMinutos(consulta.getDuracaoMinutos())
+                .data(consulta.getData())
+                .hora(consulta.getHora())
                 .sala(consulta.getSala())
                 .status(consulta.getStatus())
-                .observacoes(consulta.getObservacoes())
                 .pacienteId(consulta.getPaciente().getId())
                 .pacienteNome(consulta.getPaciente().getNome())
                 .medicoId(consulta.getMedico().getId())

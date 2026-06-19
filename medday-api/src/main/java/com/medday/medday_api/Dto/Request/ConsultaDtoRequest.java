@@ -1,15 +1,14 @@
 package com.medday.medday_api.Dto.Request;
 
-import com.medday.medday_api.Enum.Status;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Data
 @Builder
@@ -17,23 +16,18 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ConsultaDtoRequest {
 
-    @NotNull
-    @Future(message = "A consulta deve ser agendada para uma data futura.")
-    private LocalDateTime dataHora;
+    @NotNull(message = "Data é obrigatória")
+    private LocalDate data;
 
-    @NotNull
-    @Min(value = 15, message = "Duração minima é de 15 minutos.")
-    private Integer duracaoMinutos;
+    @NotNull(message = "Hora é obrigatória")
+    private LocalTime hora;
 
-    @Min(value = 1)
+    @Min(value = 1, message = "Número da sala deve ser positivo")
     private int sala;
 
-    @Size(max = 300)
-    private String observacoes;
-
-    @NotNull(message = "Paciente é obrigatório.")
+    @NotNull(message = "Paciente é obrigatório")
     private Long pacienteId;
 
-    @NotNull(message = "Médico é obrigatório.")
+    @NotNull(message = "Médico é obrigatório")
     private Long medicoId;
 }
