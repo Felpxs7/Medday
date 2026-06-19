@@ -102,4 +102,42 @@ public class ConsultaService {
             }
         }
     }
+
+    public ConsultaDtoResponse atualizar(Long id, ConsultaDtoRequest dto) {
+
+        Consulta consulta = consultaRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Consulta não encontrada com id: " + id));
+
+        if (consulta.getStatus() == Status.FINALIZADO || consulta.getStatus() == Status.CANCELADO) {
+            throw new BusinessException(
+                    "Não é possível editar uma consulta já " +
+                            consulta.getStatus().name().toLowerCase());
+        }
+
+        Medico medico = medicoRepository.findById(dto.getMedicoId())
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Médico não encontrado com id: " + dto.getMedicoId()));
+
+        Paciente paciente = pacienteRepository.findById(dto.getPacienteId())
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Paciente não encontrado com id: " + dto.getPacienteId()));
+
+        validarConflitoDeHorario(dto.getMedicoId(), dto.getData(), dto.getHora(), id);
+
+        consulta.setData(dto.getData());
+        consulta.setHora(dto.getHora());
+        consulta.setSala(dto.getSala());
+        consulta.setPaciente(paciente);
+        consulta.setMedico(medico);
+
+        return ConsultaDtoResponse.fromEntity(consultaRepository.save(consulta));
+    }
+
+    public void deletar(Long id) {
+        if (!consultaRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Consulta não encontrada com id: " + id);
+        }
+        consultaRepository.deleteById(id);
+    }
 }

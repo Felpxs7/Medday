@@ -28,6 +28,27 @@ export async function criarConsulta(consulta) {
     return response.json();
 }
 
+export async function atualizarConsulta(id, consulta) {
+    const response = await fetch(`${API_URL}/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(consulta),
+    });
+    if (!response.ok) {
+        throw new Error("Erro ao atualizar consulta");
+    }
+    return response.json();
+}
+
+export async function deletarConsulta(id) {
+    const response = await fetch(`${API_URL}/${id}`, {
+        method: "DELETE",
+    });
+    if (!response.ok) {
+        throw new Error("Erro ao deletar consulta");
+    }
+}
+
 export async function atualizarStatusConsulta(id, novoStatus) {
     const response = await fetch(`${API_URL}/${id}/status?novoStatus=${novoStatus}`, {
         method: "PATCH",

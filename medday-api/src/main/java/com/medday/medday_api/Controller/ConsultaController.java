@@ -45,4 +45,17 @@ public class ConsultaController {
     public ResponseEntity<ConsultaDtoResponse> cancelar(@PathVariable Long id) {
         return ResponseEntity.ok(consultaService.cancelar(id));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ConsultaDtoResponse> atualizar(
+            @PathVariable Long id,
+            @RequestBody @Valid ConsultaDtoRequest dto) {
+        return ResponseEntity.ok(consultaService.atualizar(id, dto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        consultaService.deletar(id);
+        return ResponseEntity.noContent().build();
+    }
 }
