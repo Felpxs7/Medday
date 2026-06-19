@@ -1,8 +1,13 @@
 import { useNavigate } from "react-router-dom";
+import { logout } from "../../services/auth";
 
 function Header() {
     const navigate = useNavigate();
 
+function sair() {
+    logout();
+    navigate("/login");
+}
     return (
         <header className="header">
 
@@ -39,7 +44,8 @@ function Header() {
                 </div>
 
             </div>
-
+        <button onClick={sair}>Sair</button>
+        
         </header>
     );
 }
