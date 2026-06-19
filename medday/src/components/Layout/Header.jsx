@@ -42,9 +42,8 @@ function sair() {
                 <div className="user-avatar">
                     MD
                 </div>
-
+                <button onClick={sair}>Sair</button>
             </div>
-        <button onClick={sair}>Sair</button>
         
         </header>
     );
